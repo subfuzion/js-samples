@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import {
-  suite, test,
   describe, it,
   before, beforeEach,
   after, afterEach,
@@ -13,10 +12,9 @@ import {
   throwWhenFalsy,
 } from "./main.js";
 
-// TDD style
-suite("ping tests", () => {
+describe("ping tests", () => {
 
-  test("ping", () => {
+  it("ping", () => {
     const expected = "pong";
     const actual = ping();
     assert.equal(actual, expected);
@@ -24,7 +22,6 @@ suite("ping tests", () => {
 
 });
 
-// BDD style
 describe("echo tests", () => {
 
   it("should return hello", () => {
@@ -66,7 +63,7 @@ describe("throwWhenFalsy tests", () => {
 
 });
 
-suite("test lifecycle demo", () => {
+describe("test lifecycle demo", () => {
   let testingSuite = false;
   let newTest = false;
   let testID = 0;
@@ -94,13 +91,13 @@ suite("test lifecycle demo", () => {
     newTest = false;
   });
 
-  test("test 1", () => {
+  it("test 1", () => {
     assert.ok(testingSuite);
     assert.ok(newTest);
     assert.equal(testID, 1);
   });
 
-  test("test 2", () => {
+  it("test 2", () => {
     assert.ok(testingSuite);
     assert.ok(newTest);
     assert.equal(testID, 2);
