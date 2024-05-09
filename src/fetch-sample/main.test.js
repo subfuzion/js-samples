@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import { suite, test, before, beforeEach, after, afterEach, } from "node:test";
+import { describe, it, before, after } from "node:test";
 import { URL } from "node:url";
 import { start, stop } from "./main.js";
 
-suite("test lifecycle demo", () => {
+describe("test lifecycle demo", () => {
   /** @type {Server} */
   let server;
   let port;
@@ -21,12 +21,37 @@ suite("test lifecycle demo", () => {
     console.log(`server stopped`);
   });
 
-  test("test 1", async () => {
-    let endpoint = new URL("/api/ping", url);
+  it("should respond with OK after ping", async () => {
+    const endpoint = new URL("/api/ping", url);
     const res = await fetch(endpoint);
     assert.ok(res.ok);
     const data = await res.json();
     assert.equal(data.message, "OK");
   });
+
+  it("should respond with name after post /user", async () => {
+    const expected = "Hello World" ;
+
+    const user = {
+      name: "World",
+      email: "world@example.com",
+    };
+
+    const endpoint = new URL("/api/user", url);
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    assert.ok(res.ok);
+    assert.equal(res.status, 200);
+    assert.ok(res.headers.get("Content-Type").includes("application/json"));
+
+    const {message} = await res.json();
+    assert.equal(message, "Hello World");
+  })
 
 });

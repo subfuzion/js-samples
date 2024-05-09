@@ -20,3 +20,9 @@ api.get("/ping", (req, res) => {
   console.log("ping", {ok: true});
   res.json({message: "OK"});
 });
+
+api.post("/user", (req, res) => {
+  const {name, email} = req.body;
+  console.log(`/user: ${name}, email: ${email}`);
+  res.json({message: `Hello ${name}`});
+})
